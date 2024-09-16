@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Points</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile {
+            font-size: 40px;
+            font-weight: bold;
+            color: #1E90FF;
+            background-color: white;
+            border-radius: 50%;
+            height: 80px;
+            width: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .username {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .onion {
+            margin: 20px 0;
+        }
+
+        .onion img {
+            height: 50px;
+            width: 50px;
+        }
+
+        .points {
+            font-size: 48px;
+            font-weight: bold;
+        }
+
+        .claim-button {
+            margin-top: 20px;
+            background-color: yellow;
+            color: black;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 10px 40px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .claim-button:active {
+            background-color: darkorange;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: #222;
+            padding: 10px 0;
+        }
+
+        .footer div {
+            color: white;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Profile logo with first letter of username -->
+        <div class="profile" id="profile-logo">S</div>
+        <div class="username" id="username">Virat_rajput01</div>
+        <div class="onion">
+            <img src="https://cdn-icons-png.flaticon.com/512/4225/4225954.png" alt="Onion Logo">
+        </div>
+        <div class="points" id="points">0</div>
+        <button class="claim-button" id="claim-button" onclick="claimPoints()">CLAIM $ONION</button>
+    </div>
+
+    <div class="footer">
+        <div>Home</div>
+        <div>Earn</div>
+        <div>Frens</div>
+        <div>Wallet</div>
+    </div>
+
+    <script>
+        // Simulating reading username from Telegram (in practice, integrate with Telegram API)
+        const telegramUsername = "Virat_rajput01";  // Example username
+
+        // Function to initialize user profile
+        function initializeUser() {
+            const firstLetter = telegramUsername.charAt(0).toUpperCase();
+            document.getElementById('profile-logo').textContent = firstLetter;
+            document.getElementById('username').textContent = telegramUsername;
+            checkClaimAvailability();
+        }
+
+        let points = 0;
+
+        // Function to handle the claim button
+        function claimPoints() {
+            // Check if user has already claimed today
+            const lastClaimDate = localStorage.getItem("lastClaimDate");
+            const today = new Date().toDateString();
+
+            if (lastClaimDate === today) {
+                alert("You have already claimed your onions today. Come back tomorrow!");
+                return;
+            }
+
+            // Increment points
+            points += 100;
+            document.getElementById("points").textContent = points;
+
+            // Store today's date as the last claim date
+            localStorage.setItem("lastClaimDate", today);
+
+            // Disable the claim button for today
+            document.getElementById("claim-button").disabled = true;
+            document.getElementById("claim-button").textContent = "Claimed!";
+        }
+
+        // Function to check if the user can claim today
+        function checkClaimAvailability() {
+            const lastClaimDate = localStorage.getItem("lastClaimDate");
+            const today = new Date().toDateString();
+
+            if (lastClaimDate === today) {
+                // Disable claim button if claimed today
+                document.getElementById("claim-button").disabled = true;
+                document.getElementById("claim-button").textContent = "Claimed!";
+            }
+        }
+
+        // Initialize the user profile on page load
+        window.onload = initializeUser;
+    </script>
+
+</body>
+</html>
